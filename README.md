@@ -12,7 +12,7 @@ A web-based link dispenser application for managing and sharing unblocker links 
 - 📱 Responsive design for mobile and desktop
 
 ### For Administrators
-- 🔐 Secure PIN-based login (PIN: 788728)
+- 🔐 Secure PIN-based login, can be managed by you!
 - ➕ Add new unblocker links with blocker/proxy selection
 - ❌ Remove links as needed
 - 💾 Automatic data persistence using browser localStorage
