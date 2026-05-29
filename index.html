@@ -3,109 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link Dispenser - Unblocker's Need Network</title>
+    <title>Unblocker Network - Link Dispenser & Proxy</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🔗 Link Dispenser - Powered by Network Zero</h1>
-            <p>Unblocker Network - Access Links Easily</p>
-            <button class="admin-btn" id="adminBtn">Admin Login</button>
-        </header>
+    <div class="main-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="nav-branding">
+                    <h1 class="nav-title">🔓 Unblocker Network</h1>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn active" id="dispenserNavBtn" data-page="dispenser">
+                        🔗 Link Dispenser
+                    </button>
+                    <button class="nav-btn" id="proxyNavBtn" data-page="proxy">
+                        🌐 DuckDuckGo Proxy
+                    </button>
+                    <button class="nav-btn admin-nav-btn" id="adminNavBtn">
+                        🔐 Admin
+                    </button>
+                </div>
+            </div>
+        </nav>
 
-        <!-- Admin Login Modal -->
-        <div id="adminModal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close" id="closeAdmin">&times;</span>
-                <h2>Admin Login</h2>
-                <div class="login-form">
-                    <input type="password" id="adminPin" placeholder="Enter PIN" maxlength="6">
-                    <button id="loginBtn">Login</button>
-                    <p id="loginError" class="error"></p>
+        <div class="container">
+            <!-- Link Dispenser Page -->
+            <div id="dispenserPage" class="page active">
+                <header>
+                    <h2>🔗 Link Dispenser</h2>
+                    <p>Unblocker Network - Access Links Easily</p>
+                </header>
+
+                <!-- Admin Panel -->
+                <div id="adminPanel" class="admin-panel hidden">
+                    <div class="admin-header">
+                        <h2>Admin Panel</h2>
+                        <button id="logoutBtn" class="logout-btn">Logout</button>
+                    </div>
+
+                    <div class="admin-section">
+                        <h3>Add New Link</h3>
+                        <div class="form-group">
+                            <label>Link URL:</label>
+                            <input type="url" id="linkUrl" placeholder="https://example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Blocker Type:</label>
+                            <select id="blockerType">
+                                <option value="">-- Select Blocker --</option>
+                                <option value="lightspeed">Lightspeed</option>
+                                <option value="lightspeed_ai">Lightspeed AI</option>
+                                <option value="blocksi_ai">Blocksi AI</option>
+                                <option value="blocksi_web">Blocksi Web</option>
+                                <option value="contentkeeper">ContentKeeper</option>
+                                <option value="cisco">Cisco</option>
+                                <option value="deledao">Deledao</option>
+                                <option value="fortinet">Fortinet/FortiGuard</option>
+                                <option value="securely">Securely</option>
+                                <option value="linewize">Linewize</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Proxy Type:</label>
+                            <select id="proxyType">
+                                <option value="">-- Optional --</option>
+                                <option value="zinko_space">Zinko Space</option>
+                                <option value="axiom">Axiom</option>
+                                <option value="arctic">Arctic</option>
+                                <option value="aspen">Aspen</option>
+                                <option value="alura">Alura</option>
+                                <option value="axis">Axis</option>
+                                <option value="awp">AWP</option>
+                                <option value="bolt">Bolt</option>
+                                <option value="boredom">Boredom</option>
+                                <option value="best_spark">Best Spark</option>
+                                <option value="bromine_lite">Bromine Lite</option>
+                                <option value="cherri">Cherri</option>
+                                <option value="classroom_spot_os">Classroom Spot OS</option>
+                                <option value="cheesy">Cheesy</option>
+                                <option value="celestial">Celestial</option>
+                                <option value="chicken_king_vault">Chicken King Vault</option>
+                                <option value="daydream">Daydream</option>
+                                <option value="dogeub">DogeUB</option>
+                                <option value="edu_rocks">EDU Rocks</option>
+                                <option value="epicway">Epicway</option>
+                                <option value="endless_proxy">Endless Proxy</option>
+                                <option value="elite_gamez">Elite Gamez</option>
+                                <option value="everest">Everest</option>
+                                <option value="fern">Fern</option>
+                                <option value="frost_chicken">Frost Chicken</option>
+                                <option value="froggies_arcade">Froggies Arcade</option>
+                                <option value="flux">Flux</option>
+                                <option value="frosted">Frosted</option>
+                                <option value="g_gui">G.GUI</option>
+                                <option value="galaxy">Galaxy</option>
+                                <option value="ghost">Ghost</option>
+                                <option value="hustle_empire">Hustle Empire</option>
+                                <option value="imp">Imp</option>
+                                <option value="infamous">Infamous</option>
+                                <option value="kraken_network">Kraken Network</option>
+                                <option value="lunaar">Lunaar</option>
+                                <option value="lich_games">Lich Games</option>
+                                <option value="lucide">Lucide</option>
+                                <option value="misu_math">Misu Math</option>
+                                <option value="mist">Mist</option>
+                                <option value="nebuli_os">Nebuli OS</option>
+                                <option value="nexora">Nexora</option>
+                                <option value="nautilus_os">Nautilus OS</option>
+                                <option value="noahs_tutoring">Noah's Tutoring</option>
+                                <option value="neo">Neo</option>
+                                <option value="over_cloaked">Over Cloaked</option>
+                                <option value="otonic">Otonic</option>
+                                <option value="petezah">Petezah</option>
+                                <option value="rosin">Rosin</option>
+                                <option value="rus">RUS</option>
+                                <option value="relic_network">Relic Network</option>
+                                <option value="study_hub">Study Hub</option>
+                                <option value="splash">Splash</option>
+                                <option value="space">Space</option>
+                                <option value="shadow">Shadow</option>
+                                <option value="strong_dog">Strong Dog</option>
+                                <option value="truffled">Truffled</option>
+                                <option value="void_network">Void Network</option>
+                                <option value="vapor">Vapor</option>
+                                <option value="velera">Velera</option>
+                                <option value="virdians_learning_node">Virdians Learning Node</option>
+                                <option value="weslack">Weslack</option>
+                                <option value="waves">Waves</option>
+                                <option value="xylora">Xylora</option>
+                                <option value="zodiac">Zodiac</option>
+                                <option value="z_kit">Z-Kit</option>
+                            </select>
+                        </div>
+                        <button id="addLinkBtn" class="add-btn">Add Link</button>
+                        <p id="addMessage" class="message"></p>
+                    </div>
+
+                    <div class="admin-section">
+                        <h3>Manage Links</h3>
+                        <div id="adminLinksList" class="links-list"></div>
+                    </div>
+                </div>
+
+                <!-- User View -->
+                <div id="userView" class="user-view">
+                    <div class="filter-section">
+                        <h2>Available Links</h2>
+                        <div class="filters">
+                            <select id="filterBlocker" class="filter-select">
+                                <option value="">All Blockers</option>
+                                <option value="lightspeed">Lightspeed</option>
+                                <option value="lightspeed_ai">Lightspeed AI</option>
+                                <option value="blocksi_ai">Blocksi AI</option>
+                                <option value="blocksi_web">Blocksi Web</option>
+                                <option value="contentkeeper">ContentKeeper</option>
+                                <option value="cisco">Cisco</option>
+                                <option value="deledao">Deledao</option>
+                                <option value="fortinet">Fortinet/FortiGuard</option>
+                                <option value="securely">Securely</option>
+                                <option value="linewize">Linewize</option>
+                            </select>
+                            <select id="filterProxy" class="filter-select">
+                                <option value="">All Proxies</option>
+                                <option value="zinko_space">Zinko Space</option>
+                                <option value="axiom">Axiom</option>
+                                <option value="arctic">Arctic</option>
+                                <option value="aspen">Aspen</option>
+                                <option value="alura">Alura</option>
+                                <option value="axis">Axis</option>
+                                <option value="awp">AWP</option>
+                                <option value="bolt">Bolt</option>
+                                <option value="boredom">Boredom</option>
+                                <option value="best_spark">Best Spark</option>
+                                <option value="bromine_lite">Bromine Lite</option>
+                                <option value="cherri">Cherri</option>
+                                <option value="classroom_spot_os">Classroom Spot OS</option>
+                                <option value="cheesy">Cheesy</option>
+                                <option value="celestial">Celestial</option>
+                                <option value="chicken_king_vault">Chicken King Vault</option>
+                                <option value="daydream">Daydream</option>
+                                <option value="dogeub">DogeUB</option>
+                                <option value="edu_rocks">EDU Rocks</option>
+                                <option value="epicway">Epicway</option>
+                                <option value="endless_proxy">Endless Proxy</option>
+                                <option value="elite_gamez">Elite Gamez</option>
+                                <option value="everest">Everest</option>
+                                <option value="fern">Fern</option>
+                                <option value="frost_chicken">Frost Chicken</option>
+                                <option value="froggies_arcade">Froggies Arcade</option>
+                                <option value="flux">Flux</option>
+                                <option value="frosted">Frosted</option>
+                                <option value="g_gui">G.GUI</option>
+                                <option value="galaxy">Galaxy</option>
+                                <option value="ghost">Ghost</option>
+                                <option value="hustle_empire">Hustle Empire</option>
+                                <option value="imp">Imp</option>
+                                <option value="infamous">Infamous</option>
+                                <option value="kraken_network">Kraken Network</option>
+                                <option value="lunaar">Lunaar</option>
+                                <option value="lich_games">Lich Games</option>
+                                <option value="lucide">Lucide</option>
+                                <option value="misu_math">Misu Math</option>
+                                <option value="mist">Mist</option>
+                                <option value="nebuli_os">Nebuli OS</option>
+                                <option value="nexora">Nexora</option>
+                                <option value="nautilus_os">Nautilus OS</option>
+                                <option value="noahs_tutoring">Noah's Tutoring</option>
+                                <option value="neo">Neo</option>
+                                <option value="over_cloaked">Over Cloaked</option>
+                                <option value="otonic">Otonic</option>
+                                <option value="petezah">Petezah</option>
+                                <option value="rosin">Rosin</option>
+                                <option value="rus">RUS</option>
+                                <option value="relic_network">Relic Network</option>
+                                <option value="study_hub">Study Hub</option>
+                                <option value="splash">Splash</option>
+                                <option value="space">Space</option>
+                                <option value="shadow">Shadow</option>
+                                <option value="strong_dog">Strong Dog</option>
+                                <option value="truffled">Truffled</option>
+                                <option value="void_network">Void Network</option>
+                                <option value="vapor">Vapor</option>
+                                <option value="velera">Velera</option>
+                                <option value="virdians_learning_node">Virdians Learning Node</option>
+                                <option value="weslack">Weslack</option>
+                                <option value="waves">Waves</option>
+                                <option value="xylora">Xylora</option>
+                                <option value="zodiac">Zodiac</option>
+                                <option value="z_kit">Z-Kit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="userLinksList" class="links-list"></div>
+                </div>
+            </div>
+
+            <!-- DuckDuckGo Proxy Page -->
+            <div id="proxyPage" class="page">
+                <header>
+                    <h2>🌐 DuckDuckGo Proxy</h2>
+                    <p>Search the web privately and bypass restrictions</p>
+                </header>
+
+                <div class="proxy-container">
+                    <div class="search-section">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="Search DuckDuckGo..." class="search-input">
+                            <button id="searchBtn" class="search-btn">Search</button>
+                        </div>
+                    </div>
+
+                    <div id="proxyResults" class="proxy-results">
+                        <p class="empty-message">Enter a search query to get started</p>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Admin Panel -->
-        <div id="adminPanel" class="admin-panel hidden">
-            <div class="admin-header">
-                <h2>Admin Panel</h2>
-                <button id="logoutBtn" class="logout-btn">Logout</button>
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" id="closeAdmin">&times;</span>
+            <h2>Admin Login</h2>
+            <div class="login-form">
+                <input type="password" id="adminPin" placeholder="Enter PIN" maxlength="6">
+                <button id="loginBtn">Login</button>
+                <p id="loginError" class="error"></p>
             </div>
-
-            <div class="admin-section">
-                <h3>Add New Link</h3>
-                <div class="form-group">
-                    <label>Link URL:</label>
-                    <input type="url" id="linkUrl" placeholder="https://example.com">
-                </div>
-                <div class="form-group">
-                    <label>Blocker Type:</label>
-                    <select id="blockerType">
-                        <option value="">-- Select Blocker --</option>
-                        <option value="lightspeed">Lightspeed</option>
-                        <option value="lightspeed_ai">Lightspeed AI</option>
-                        <option value="blocksi_ai">Blocksi AI</option>
-                        <option value="blocksi_web">Blocksi Web</option>
-                        <option value="contentkeeper">ContentKeeper</option>
-                        <option value="cisco">Cisco</option>
-                        <option value="deledao">Deledao</option>
-                        <option value="fortinet">Fortinet/FortiGuard</option>
-                        <option value="securely">Securely</option>
-                        <option value="linewize">Linewize</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Proxy Type:</label>
-                    <select id="proxyType">
-                        <option value="">-- Optional --</option>
-                        <option value="zinko_space">Zinko Space</option>
-                        <option value="infamous">Infamous</option>
-                        <option value="axiom">Axiom</option>
-                        <option value="alura">Alura</option>
-                        <option value="arctic">Arctic</option>
-                    </select>
-                </div>
-                <button id="addLinkBtn" class="add-btn">Add Link</button>
-                <p id="addMessage" class="message"></p>
-            </div>
-
-            <div class="admin-section">
-                <h3>Manage Links</h3>
-                <div id="adminLinksList" class="links-list"></div>
-            </div>
-        </div>
-
-        <!-- User View -->
-        <div id="userView" class="user-view">
-            <div class="filter-section">
-                <h2>Available Links</h2>
-                <div class="filters">
-                    <select id="filterBlocker" class="filter-select">
-                        <option value="">All Blockers</option>
-                        <option value="lightspeed">Lightspeed</option>
-                        <option value="lightspeed_ai">Lightspeed AI</option>
-                        <option value="blocksi_ai">Blocksi AI</option>
-                        <option value="blocksi_web">Blocksi Web</option>
-                        <option value="contentkeeper">ContentKeeper</option>
-                        <option value="cisco">Cisco</option>
-                        <option value="deledao">Deledao</option>
-                        <option value="fortinet">Fortinet/FortiGuard</option>
-                        <option value="securely">Securely</option>
-                        <option value="linewize">Linewize</option>
-                    </select>
-                    <select id="filterProxy" class="filter-select">
-                        <option value="">All Proxies</option>
-                        <option value="zinko_space">Zinko Space</option>
-                        <option value="infamous">Infamous</option>
-                        <option value="axiom">Axiom</option>
-                        <option value="alura">Alura</option>
-                        <option value="arctic">Arctic</option>
-                    </select>
-                </div>
-            </div>
-            <div id="userLinksList" class="links-list"></div>
         </div>
     </div>
 
