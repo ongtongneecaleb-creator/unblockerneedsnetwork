@@ -58,8 +58,8 @@ filterBlocker.addEventListener('change', renderUserLinks);
 filterProxy.addEventListener('change', renderUserLinks);
 
 // Event Listeners - Proxy
-searchBtn.addEventListener('click', handleSearch);
-searchInput.addEventListener('keypress', (e) => {
+if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+if (searchInput) searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleSearch();
 });
 
