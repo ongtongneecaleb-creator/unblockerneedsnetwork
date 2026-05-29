@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Dispenser - Unblocker Network</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔗 Link Dispenser</h1>
+            <p>Unblocker Network - Access Links Easily</p>
+            <button class="admin-btn" id="adminBtn">Admin Login</button>
+        </header>
+
+        <!-- Admin Login Modal -->
+        <div id="adminModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close" id="closeAdmin">&times;</span>
+                <h2>Admin Login</h2>
+                <div class="login-form">
+                    <input type="password" id="adminPin" placeholder="Enter PIN" maxlength="6">
+                    <button id="loginBtn">Login</button>
+                    <p id="loginError" class="error"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="admin-panel hidden">
+            <div class="admin-header">
+                <h2>Admin Panel</h2>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+
+            <div class="admin-section">
+                <h3>Add New Link</h3>
+                <div class="form-group">
+                    <label>Link URL:</label>
+                    <input type="url" id="linkUrl" placeholder="https://example.com">
+                </div>
+                <div class="form-group">
+                    <label>Blocker Type:</label>
+                    <select id="blockerType">
+                        <option value="">-- Select Blocker --</option>
+                        <option value="lightspeed">Lightspeed</option>
+                        <option value="lightspeed_ai">Lightspeed AI</option>
+                        <option value="blocksi_ai">Blocksi AI</option>
+                        <option value="blocksi_web">Blocksi Web</option>
+                        <option value="contentkeeper">ContentKeeper</option>
+                        <option value="cisco">Cisco</option>
+                        <option value="deledao">Deledao</option>
+                        <option value="fortinet">Fortinet/FortiGuard</option>
+                        <option value="securely">Securely</option>
+                        <option value="linewize">Linewize</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Proxy Type:</label>
+                    <select id="proxyType">
+                        <option value="">-- Optional --</option>
+                        <option value="zinko_space">Zinko Space</option>
+                        <option value="infamous">Infamous</option>
+                        <option value="axiom">Axiom</option>
+                        <option value="alura">Alura</option>
+                        <option value="arctic">Arctic</option>
+                    </select>
+                </div>
+                <button id="addLinkBtn" class="add-btn">Add Link</button>
+                <p id="addMessage" class="message"></p>
+            </div>
+
+            <div class="admin-section">
+                <h3>Manage Links</h3>
+                <div id="adminLinksList" class="links-list"></div>
+            </div>
+        </div>
+
+        <!-- User View -->
+        <div id="userView" class="user-view">
+            <div class="filter-section">
+                <h2>Available Links</h2>
+                <div class="filters">
+                    <select id="filterBlocker" class="filter-select">
+                        <option value="">All Blockers</option>
+                        <option value="lightspeed">Lightspeed</option>
+                        <option value="lightspeed_ai">Lightspeed AI</option>
+                        <option value="blocksi_ai">Blocksi AI</option>
+                        <option value="blocksi_web">Blocksi Web</option>
+                        <option value="contentkeeper">ContentKeeper</option>
+                        <option value="cisco">Cisco</option>
+                        <option value="deledao">Deledao</option>
+                        <option value="fortinet">Fortinet/FortiGuard</option>
+                        <option value="securely">Securely</option>
+                        <option value="linewize">Linewize</option>
+                    </select>
+                    <select id="filterProxy" class="filter-select">
+                        <option value="">All Proxies</option>
+                        <option value="zinko_space">Zinko Space</option>
+                        <option value="infamous">Infamous</option>
+                        <option value="axiom">Axiom</option>
+                        <option value="alura">Alura</option>
+                        <option value="arctic">Arctic</option>
+                    </select>
+                </div>
+            </div>
+            <div id="userLinksList" class="links-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
