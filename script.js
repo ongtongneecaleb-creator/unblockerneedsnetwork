@@ -5,8 +5,17 @@ const ADMIN_PIN = '788728';
 let links = [];
 let isAdminLoggedIn = false;
 
-// DOM Elements
-const adminBtn = document.getElementById('adminBtn');
+// Current page state
+let currentPage = 'dispenser';
+
+// DOM Elements - Navigation
+const dispenserNavBtn = document.getElementById('dispenserNavBtn');
+const proxyNavBtn = document.getElementById('proxyNavBtn');
+const adminNavBtn = document.getElementById('adminNavBtn');
+const dispenserPage = document.getElementById('dispenserPage');
+const proxyPage = document.getElementById('proxyPage');
+
+// DOM Elements - Admin
 const adminModal = document.getElementById('adminModal');
 const closeAdmin = document.getElementById('closeAdmin');
 const adminPin = document.getElementById('adminPin');
@@ -16,6 +25,7 @@ const adminPanel = document.getElementById('adminPanel');
 const logoutBtn = document.getElementById('logoutBtn');
 const userView = document.getElementById('userView');
 
+// DOM Elements - Link Dispenser
 const linkUrl = document.getElementById('linkUrl');
 const blockerType = document.getElementById('blockerType');
 const proxyType = document.getElementById('proxyType');
@@ -27,14 +37,31 @@ const userLinksList = document.getElementById('userLinksList');
 const filterBlocker = document.getElementById('filterBlocker');
 const filterProxy = document.getElementById('filterProxy');
 
-// Event Listeners
-adminBtn.addEventListener('click', () => adminModal.classList.remove('hidden'));
+// DOM Elements - Proxy
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+const proxyResults = document.getElementById('proxyResults');
+
+// Event Listeners - Navigation
+dispenserNavBtn.addEventListener('click', () => switchPage('dispenser'));
+proxyNavBtn.addEventListener('click', () => switchPage('proxy'));
+adminNavBtn.addEventListener('click', () => adminModal.classList.remove('hidden'));
+
+// Event Listeners - Admin
 closeAdmin.addEventListener('click', () => adminModal.classList.add('hidden'));
 loginBtn.addEventListener('click', handleLogin);
 logoutBtn.addEventListener('click', handleLogout);
 addLinkBtn.addEventListener('click', handleAddLink);
+
+// Event Listeners - Link Dispenser
 filterBlocker.addEventListener('change', renderUserLinks);
 filterProxy.addEventListener('change', renderUserLinks);
+
+// Event Listeners - Proxy
+searchBtn.addEventListener('click', handleSearch);
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleSearch();
+});
 
 // Close modal when clicking outside
 adminModal.addEventListener('click', (e) => {
@@ -48,6 +75,110 @@ adminPin.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleLogin();
 });
 
+// Page Switching
+function switchPage(page) {
+    currentPage = page;
+    
+    // Update pages
+    if (page === 'dispenser') {
+        dispenserPage.classList.add('active');
+        proxyPage.classList.remove('active');
+        dispenserNavBtn.classList.add('active');
+        proxyNavBtn.classList.remove('active');
+    } else if (page === 'proxy') {
+        dispenserPage.classList.remove('active');
+        proxyPage.classList.add('active');
+        dispenserNavBtn.classList.remove('active');
+        proxyNavBtn.classList.add('active');
+    }
+}
+
+// Handle DuckDuckGo Search
+async function handleSearch() {
+    const query = searchInput.value.trim();
+    
+    if (!query) {
+        proxyResults.innerHTML = '<p class="empty-message">Please enter a search query</p>';
+        return;
+    }
+    
+    proxyResults.innerHTML = '<div class="loading"></div><p>Searching...</p>';
+    
+    try {
+        // Using DuckDuckGo's API endpoint
+        const apiUrl = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`;
+        
+        // Since we can't directly fetch from DuckDuckGo API due to CORS, we'll use a proxy
+        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`);
+        const data = await response.json();
+        
+        if (data.status === 200) {
+            const results = JSON.parse(data.contents);
+            displaySearchResults(results, query);
+        } else {
+            throw new Error('Failed to fetch results');
+        }
+    } catch (error) {
+        console.error('Search error:', error);
+        proxyResults.innerHTML = `
+            <p class="empty-message">
+                <strong>⚠️ Unable to fetch results</strong><br>
+                <small>Try using this direct search link:<br>
+                <a href="https://duckduckgo.com/?q=${encodeURIComponent(searchInput.value)}" target="_blank" class="result-link-btn">
+                    Search on DuckDuckGo
+                </a></small>
+            </p>
+        `;
+    }
+}
+
+// Display Search Results
+function displaySearchResults(results, query) {
+    if (!results.RelatedTopics || results.RelatedTopics.length === 0) {
+        proxyResults.innerHTML = '<p class="empty-message">No results found. Try a different search.</p>';
+        return;
+    }
+    
+    let html = '';
+    
+    // Display abstract if available
+    if (results.AbstractText) {
+        html += `
+            <div class="search-result">
+                <div class="result-title">${results.AbstractTitle || 'Result'}</div>
+                <div class="result-snippet">${results.AbstractText}</div>
+                ${results.AbstractURL ? `<a href="${results.AbstractURL}" target="_blank" class="result-link-btn">View More</a>` : ''}
+            </div>
+        `;
+    }
+    
+    // Display related topics (limited to 10)
+    results.RelatedTopics.slice(0, 10).forEach(topic => {
+        if (topic.Text) {
+            const title = topic.FirstURL ? extractDomain(topic.FirstURL) : 'Result';
+            html += `
+                <div class="search-result">
+                    <div class="result-title">${topic.Text.substring(0, 100)}</div>
+                    ${topic.FirstURL ? `<div class="result-url">${topic.FirstURL}</div>` : ''}
+                    <div class="result-snippet">${topic.Description || 'No description available'}</div>
+                    ${topic.FirstURL ? `<a href="${topic.FirstURL}" target="_blank" class="result-link-btn">Visit Site</a>` : ''}
+                </div>
+            `;
+        }
+    });
+    
+    proxyResults.innerHTML = html || '<p class="empty-message">No results found.</p>';
+}
+
+// Extract domain from URL
+function extractDomain(url) {
+    try {
+        return new URL(url).hostname;
+    } catch {
+        return url;
+    }
+}
+
 // Handle admin login
 function handleLogin() {
     loginError.textContent = '';
@@ -56,7 +187,7 @@ function handleLogin() {
         isAdminLoggedIn = true;
         adminModal.classList.add('hidden');
         adminPanel.classList.remove('hidden');
-        adminBtn.style.display = 'none';
+        userView.style.display = 'none';
         adminPin.value = '';
         renderAdminLinks();
     } else {
@@ -69,7 +200,7 @@ function handleLogin() {
 function handleLogout() {
     isAdminLoggedIn = false;
     adminPanel.classList.add('hidden');
-    adminBtn.style.display = 'inline-block';
+    userView.style.display = 'block';
     addMessage.textContent = '';
 }
 
@@ -249,10 +380,71 @@ function getBlockerLabel(value) {
 function getProxyLabel(value) {
     const labels = {
         'zinko_space': 'Zinko Space',
-        'infamous': 'Infamous',
         'axiom': 'Axiom',
+        'arctic': 'Arctic',
+        'aspen': 'Aspen',
         'alura': 'Alura',
-        'arctic': 'Arctic'
+        'axis': 'Axis',
+        'awp': 'AWP',
+        'bolt': 'Bolt',
+        'boredom': 'Boredom',
+        'best_spark': 'Best Spark',
+        'bromine_lite': 'Bromine Lite',
+        'cherri': 'Cherri',
+        'classroom_spot_os': 'Classroom Spot OS',
+        'cheesy': 'Cheesy',
+        'celestial': 'Celestial',
+        'chicken_king_vault': 'Chicken King Vault',
+        'daydream': 'Daydream',
+        'dogeub': 'DogeUB',
+        'edu_rocks': 'EDU Rocks',
+        'epicway': 'Epicway',
+        'endless_proxy': 'Endless Proxy',
+        'elite_gamez': 'Elite Gamez',
+        'everest': 'Everest',
+        'fern': 'Fern',
+        'frost_chicken': 'Frost Chicken',
+        'froggies_arcade': 'Froggies Arcade',
+        'flux': 'Flux',
+        'frosted': 'Frosted',
+        'g_gui': 'G.GUI',
+        'galaxy': 'Galaxy',
+        'ghost': 'Ghost',
+        'hustle_empire': 'Hustle Empire',
+        'imp': 'Imp',
+        'infamous': 'Infamous',
+        'kraken_network': 'Kraken Network',
+        'lunaar': 'Lunaar',
+        'lich_games': 'Lich Games',
+        'lucide': 'Lucide',
+        'misu_math': 'Misu Math',
+        'mist': 'Mist',
+        'nebuli_os': 'Nebuli OS',
+        'nexora': 'Nexora',
+        'nautilus_os': 'Nautilus OS',
+        'noahs_tutoring': "Noah's Tutoring",
+        'neo': 'Neo',
+        'over_cloaked': 'Over Cloaked',
+        'otonic': 'Otonic',
+        'petezah': 'Petezah',
+        'rosin': 'Rosin',
+        'rus': 'RUS',
+        'relic_network': 'Relic Network',
+        'study_hub': 'Study Hub',
+        'splash': 'Splash',
+        'space': 'Space',
+        'shadow': 'Shadow',
+        'strong_dog': 'Strong Dog',
+        'truffled': 'Truffled',
+        'void_network': 'Void Network',
+        'vapor': 'Vapor',
+        'velera': 'Velera',
+        'virdians_learning_node': 'Virdians Learning Node',
+        'weslack': 'Weslack',
+        'waves': 'Waves',
+        'xylora': 'Xylora',
+        'zodiac': 'Zodiac',
+        'z_kit': 'Z-Kit'
     };
     return labels[value] || value;
 }
