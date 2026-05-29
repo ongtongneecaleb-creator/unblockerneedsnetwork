@@ -38,6 +38,7 @@ A web-based link dispenser application for managing and sharing unblocker links 
 3. **Axiom**
 4. **Alura**
 5. **Arctic**
+6. **more to list**
 
 ## How to Use
 
@@ -80,7 +81,7 @@ unblockerneedsnetwork/
 
 ## Security Notes
 
-- The admin PIN is hardcoded as `788728` (can be changed in `script.js`)
+- The admin PIN can be changed in `script.js`
 - Data is stored locally in the browser (not transmitted to servers)
 - For production use, consider implementing:
   - Stronger authentication
